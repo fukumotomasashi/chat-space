@@ -1,14 +1,4 @@
-.side-bar
-  .header-side
-    %h5 Fukumoto Masashi
-    .header-side__actions
-      %a.header-side__action{ href: "" }
-        =fa_icon "pencil-square-o "
-      %a.header-side__action{ href: "" }
-        =fa_icon "cog "
-  = render partial: 'massages/group'
-
-
+= render 'layouts/side_bar'
 .contents-main
   .content-header
     .content-header--left
@@ -17,8 +7,7 @@
         Menber:
         %span.content-header__menber-user Fukumoto Masashi
     .content-header--right
-      %a.cotent-header__edit-btn{ href: "" }
-        Edit
+      = link_to 'Edit', edit_group_path(current_user), class: "cotent-header__edit-btn"
   .content-body
     = render partial: 'massages/message'
   .content-footer
@@ -30,7 +19,4 @@
             %input{ type: "file", name: "", style: "display:none;" }
             =fa_icon "picture-o"
     %input.btn{ type: "submit", name: "", value: "Send" }
-
-
-
 
