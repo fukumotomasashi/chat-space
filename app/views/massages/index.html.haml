@@ -2,21 +2,23 @@
 .contents-main
   .content-header
     .content-header--left
-      %h2.content-header__group Sampleグループ
+      %h2.content-header__group= @group.name
       %p.content-header__menber
         Menber:
-        %span.content-header__menber-user Fukumoto Masashi
+        - @group.users.each do |user|
+          %span.content-header__menber-user= user.name + ","
     .content-header--right
       = link_to 'Edit', edit_group_path(current_user), class: "cotent-header__edit-btn"
-  .content-body
-    = render partial: 'massages/message'
-  .content-footer
-    %form.new-message
-      .cotent-footer__message
-        %textarea{ type: "text", rows: "1", placeholder: "type a message", name: "text" }
-        .content-footer__icon
-          %label
-            %input{ type: "file", name: "", style: "display:none;" }
-            =fa_icon "picture-o"
-    %input.btn{ type: "submit", name: "", value: "Send" }
 
+  .content-body
+    = render @massages
+
+  .content-footer
+    = form_for [@group, @massage] do |f|
+      .cotent-footer__message
+        = f.text_field :boby, placeholder: "type a message"
+        .content-footer__icon
+          = f.label :image do
+            =f.file_field :image, style: "display:none;"
+            =fa_icon "picture-o"
+      = f.submit 'Send', class: "btn"

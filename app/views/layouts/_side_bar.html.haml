@@ -1,6 +1,6 @@
 .side-bar
   .header-side
-    %h5 Fukumoto Masashi
+    %h5=current_user.name
     .header-side__actions
       = link_to new_group_path, class: "btn-action" do
         =fa_icon "pencil-square-o "
@@ -13,4 +13,4 @@
           %p.side-group__name
             = group.name
           %p.side-group__message
-            = group.name
+            = group.show_last_message
