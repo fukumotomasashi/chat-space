@@ -8,11 +8,16 @@ class MassagesController < ApplicationController
   def create
     @massage = @group.massages.new(massage_params)
     if @massage.save
-      redirect_to group_massages_path(@group), notice: 'メッセージが送信されました'
+      respond_to do |format|
+        format.html do
+          redirect_to group_massages_path(@group), notice: "メッセージが送信されました"
+        end
+        format.json
+      end
     else
       @massages = @group.massages.includes(:user)
       flash.now[:alert] = 'メッセージを入力してください。'
-      render :index
+      format.html { render :index }
     end
   end
 
