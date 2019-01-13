@@ -3,7 +3,7 @@
     %p.cotent-message__user<>
       = massage.user.name
       %span.content-message__created-time<>
-        = massage.created_at.strftime("%Y/%m/%d %H:%M")
+        = created_time(massage.created_at)
     - if massage.boby.present?
       %p.content-message__text
         = massage.boby
