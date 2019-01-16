@@ -1,6 +1,6 @@
 $(function() {
   var addUserList = $('#user-search-result')
-  var removeUserList = $('#user-search-result2')
+  var removeUserList = $('#remove-user-list')
   function appendAddUserList (user) {
     var html = `<div class="chat-group-user clearfix">
                   <p class="chat-group-user__name">${ user.name }</p>
@@ -9,9 +9,9 @@ $(function() {
     addUserList.append(html);
   }
 
-  function appendNoAddUserList(user){
+  function appendNoAddUserList(){
     var html = `<div class="chat-group-user clearfix">
-                  <p class="chat-group-user__name">${ user }</p>`
+                  <p class="chat-group-user__name">一致するユーザーはいません</p>`
     addUserList.append(html);
   }
 
@@ -25,47 +25,41 @@ $(function() {
   }
 
 
-  $(function() {
-    $("#user-search-field").on("keyup", function() {
-      var input = $(this).val();
-      $.ajax({
-        type: 'GET',
-        url: '/users',
-        data: {keyword: input},
-        dataType: 'json'
-      })
+  $("#user-search-field").on("keyup", function() {
+    var input = $(this).val();
+    $.ajax({
+      type: 'GET',
+      url: '/users',
+      data: {keyword: input},
+      dataType: 'json'
+    })
 
-      .done(function(users) {
-        $("#user-search-result").empty();
-          if (users.length !== 0) {
-            users.forEach(function(user) {
-            appendAddUserList(user);
-            });
-        }
-        else {
-          appendNoAddUserList("一致するユーザーはいません")
-        }
-       })
-      .fail(function() {
-        alert("通信に失敗しました")
-      })
-    });
+    .done(function(users) {
+      $("#user-search-result").empty();
+        if (users.length !== 0) {
+          users.forEach(function(user) {
+          appendAddUserList(user);
+          });
+      }
+      else {
+        appendNoAddUserList()
+      }
+     })
+    .fail(function() {
+      alert("通信に失敗しました")
+    })
   });
 
-  $(function() {
-    $(document).on("click", ".user-search-add", function(){
-      $(this).parent().hide();
-        var user = {
-          id: $(this).attr('data-user-id'),
-          name: $(this).attr('data-user-name')
-        }
-        appendRemoveUserList(user)
-    });
+  $(document).on("click", ".user-search-add", function(){
+    $(this).parent().hide();
+      var user = {
+        id: $(this).attr('data-user-id'),
+        name: $(this).attr('data-user-name')
+      }
+    appendRemoveUserList(user)
   });
 
-  $(function() {
-    $(document).on("click", ".user-search-remove", function() {
-      $(this).parent().remove();
-    });
+  $(document).on("click", ".user-search-remove", function() {
+    $(this).parent().remove();
   });
 });
