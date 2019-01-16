@@ -44,7 +44,7 @@ $(function() {
       else {
         appendNoAddUserList()
       }
-     })
+    })
     .fail(function() {
       alert("通信に失敗しました")
     })
@@ -56,7 +56,7 @@ $(function() {
         id: $(this).attr('data-user-id'),
         name: $(this).attr('data-user-name')
       }
-    appendRemoveUserList(user)
+      appendRemoveUserList(user)
   });
 
   $(document).on("click", ".user-search-remove", function() {
