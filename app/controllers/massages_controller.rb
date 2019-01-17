@@ -6,6 +6,7 @@ class MassagesController < ApplicationController
     respond_to do |format|
       format.html
       format.json { @new_messeges = Massage.where('id > ?', params[:massage][:id]) }
+
     end
   end
 
