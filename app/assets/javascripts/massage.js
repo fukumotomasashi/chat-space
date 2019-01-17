@@ -1,20 +1,53 @@
-$(function (){
+$(document).on('turbolinks:load', function() {
+
   function buildHTML(message){
           var image = `${message.image}` != "null" ? `<img class="massage-image" src="${ message.image }">` : ``;
           var html =
-          `<ul class="content-messages">
+          `<ul class="content-messages" data-message-id="${ message.id }">
             <li class="content-message">
-              <p>
+              <p class="cotent-message__user" >
                 ${ message.name }
-                <span class="content-message__created-time">${ message.created_at }</span>
+                  <span class="content-message__created-time">${ message.created_at }</span>
               </p>
               <p class="content-message__text">
                 ${ message.boby } <br>` + image + `
               </p>
             </li>
-          </ul>`;
+          </ul>`
         return html
     }
+
+  $(function() {
+    if(location.pathname.match(/\/groups\/\d+\/massages/)){
+    setInterval(update, 5000);
+    }
+  });
+
+  function update() {
+    if($('.content-messages')[0]){
+      var message_id = $('.content-messages:last').data('message-id');
+    } else {
+      var message_id = 0
+    }
+
+    $.ajax({
+      url: location.href,
+      type: 'GET',
+      data:
+      {
+        massage: {id: message_id}
+      },
+      dataType: 'json'
+    })
+
+    .done(function(data){
+      $.each(data, function(i, data){
+        var html = buildHTML(data);
+        $('.content-body').append(html);
+      })
+    })
+  }
+
   $('#new_massage').on('submit', function(e){
     e.preventDefault();
     var formData = new FormData(this);
@@ -42,5 +75,5 @@ $(function (){
       $('#massage_image').val('');
       $(".message-btn").prop("disabled", false);
     })
-  });
+  })
 });
