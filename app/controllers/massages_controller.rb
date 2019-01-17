@@ -22,7 +22,6 @@ class MassagesController < ApplicationController
     else
       @massages = @group.massages.includes(:user)
       flash.now[:alert] = 'メッセージを入力してください。'
-      format.html { render :index }
     end
   end
 
