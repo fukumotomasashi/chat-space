@@ -3,6 +3,10 @@ class MassagesController < ApplicationController
   def index
     @massage = Massage.new
     @massages = @group.massages.includes(:user)
+    respond_to do |format|
+      format.html
+      format.json { @new_messeges = Massage.where('id > ?', params[:massage][:id]) }
+    end
   end
 
   def create

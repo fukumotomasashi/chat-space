@@ -2,7 +2,7 @@ $(function (){
   function buildHTML(message){
           var image = `${message.image}` != "null" ? `<img class="massage-image" src="${ message.image }">` : ``;
           var html =
-          `<ul class="content-messages">
+          `<ul class="content-messages" data-message-id="${ message.id }">
             <li class="content-message">
               <p>
                 ${ message.name }
@@ -15,6 +15,38 @@ $(function (){
           </ul>`;
         return html
     }
+
+  $(function() {
+    if(location.pathname.match(/\/groups\/\d+\/massages/)){
+      setInterval(update, 2000);
+    }
+  });
+
+  function update() {
+    if($('.content-messages')[0]){
+      var message_id = $('.content-messages:last').data('message-id');
+    } else {
+      var message_id = 0
+    }
+
+    $.ajax({
+      url: location.href,
+      type: 'GET',
+      data:
+      {
+        massage: {id: message_id}
+      },
+      dataType: 'json'
+    })
+
+    .done(function(data){
+      $.each(data, function(i, data){
+        var html = buildHTML(data);
+        $('.content-body').append(html);
+      })
+    })
+  }
+
   $('#new_massage').on('submit', function(e){
     e.preventDefault();
     var formData = new FormData(this);
@@ -42,5 +74,5 @@ $(function (){
       $('#massage_image').val('');
       $(".message-btn").prop("disabled", false);
     })
-  });
+  })
 });
