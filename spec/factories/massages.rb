@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :massage do
     boby Faker::Lorem.sentence
-    image File.open("#{Rails.root}/public/uploads/massage/image/2/ブログ指示書.png")
+    image File.open("#{Rails.root}/public/aaa.png")
     user
     group
   end
