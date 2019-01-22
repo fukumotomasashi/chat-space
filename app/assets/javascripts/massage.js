@@ -44,6 +44,7 @@ $(document).on('turbolinks:load', function() {
       $.each(data, function(i, data){
         var html = buildHTML(data);
         $('.content-body').append(html);
+        $('.content-body').animate({scrollTop: $('.content-body')[0].scrollHeight}, 'fast');
       })
     })
   }
